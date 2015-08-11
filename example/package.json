@@ -1,0 +1,47 @@
+{
+  "description": "An example using GraphiQL",
+  "scripts": {
+    "start": "node dist/server.js",
+    "prestart": "npm run build",
+    "build": "npm run build-html && npm run build-css && npm run build-app && npm run build-server",
+    "build-app": "mkdir -p dist && browserify --global-transform browserify-shim index.js -o dist/index.js",
+    "build-css": "mkdir -p dist && cat ../dist/*.css > dist/index.css",
+    "build-html": "mkdir -p dist && cat index.html > dist/index.html",
+    "build-server": "mkdir -p dist && babel server.js --optional runtime -o dist/server.js"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "browserify-shim": {
+    "react": "global:React"
+  },
+  "babel": {
+    "optional": [
+      "runtime"
+    ],
+    "loose": [
+      "es6.classes",
+      "es6.destructuring",
+      "es6.modules",
+      "es6.properties.computed",
+      "es6.spread",
+      "es6.templateLiterals"
+    ]
+  },
+  "dependencies": {
+    "babel-runtime": "^5.8.20",
+    "express": "^4.12.4",
+    "express-graphql": "^0.1.0",
+    "graphiql": "../",
+    "graphql": "^0.2.6",
+    "react": "^0.13.3",
+    "whatwg-fetch": "^0.9.0"
+  },
+  "devDependencies": {
+    "babelify": "^6.1.1",
+    "browserify": "^10.2.0",
+    "browserify-shim": "^3.8.10"
+  }
+}
