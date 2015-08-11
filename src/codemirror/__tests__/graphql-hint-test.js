@@ -106,5 +106,17 @@ describe('graphql-hint', () => {
     checkSuggestions(typeConditionNames, suggestions.list);
   });
 
-  // TODO: Enums
+  it('provides correct ENUM suggestions', async () => {
+    let suggestions = await getHintSuggestions(
+      '{ hasArgs (enum: ', { line: 0, ch: 17 });
+    const enumNames = Object.keys(TestSchema._typeMap.TestEnum._values);
+    checkSuggestions(enumNames, suggestions.list);
+  });
+
+  it('provides correct testInput suggestions', async () => {
+    let suggestions = await getHintSuggestions(
+      '{ hasArgs (object: { ', { line: 0, ch: 21 });
+    const testInputNames = Object.keys(TestSchema._typeMap.TestInput._fields);
+    checkSuggestions(testInputNames, suggestions.list);
+  });
 });

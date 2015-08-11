@@ -386,5 +386,5 @@ var ParseRules = {
   // NonNullType has been merged into ListType and NamedType to simplify.
   ListType: [ p('['), 'NamedType', p(']'), opt(p('!')) ],
   NamedType: [ name('atom'), opt(p('!')) ],
-  Directive: [ p('@', 'meta'), name('meta'), 'Arguments' ],
+  Directive: [ p('@', 'meta'), name('meta'), opt('Arguments') ],
 };
