@@ -11,24 +11,22 @@ import { describe, it } from 'mocha';
 import CodeMirror from 'codemirror';
 import 'codemirror/addon/lint/lint';
 import '../lint/graphql-lint';
-import { BlogSchema } from './blogSchema';
+import { TestSchema } from './TestSchema';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
 /* eslint-disable max-len */
 
 function createEditorWithLint(lintConfig) {
-  let editor = CodeMirror(document.createElement('div'), {
+  return CodeMirror(document.createElement('div'), {
     mode: 'graphql',
     lint: lintConfig ? lintConfig : true
   });
-
-  return editor;
 }
 
 function printLintErrors(queryString) {
   let editor = createEditorWithLint({
-    schema: BlogSchema
+    schema: TestSchema
   });
 
   return new Promise((resolve, reject) => {
@@ -68,7 +66,7 @@ describe('graphql-lint', () => {
     expect(
       (await printLintErrors(`query queryName { title }`))[0].message
     ).to.contain(
-`Cannot query field "title" on "Query".`
+`Cannot query field "title" on "Test".`
     );
   });
 
@@ -83,5 +81,4 @@ describe('graphql-lint', () => {
       expect(error.type).to.not.equal('syntax');
     }
   });
-
 });
