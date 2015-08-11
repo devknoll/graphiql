@@ -117,6 +117,21 @@ var TestType = new GraphQLObjectType({
   })
 });
 
+var TestMutationType = new GraphQLObjectType({
+  name: 'MutationType',
+  description: 'This is a simple mutation type',
+  fields: {
+    setString: {
+      type: GraphQLString,
+      description: 'Set the string field',
+      args: {
+        value: { type: GraphQLString }
+      }
+    }
+  }
+});
+
 export const TestSchema = new GraphQLSchema({
-  query: TestType
+  query: TestType,
+  mutation: TestMutationType
 });

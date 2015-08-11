@@ -42,7 +42,7 @@ function printLintErrors(queryString) {
   }).then((errors) => {
     return errors;
   }).catch(() => {
-    return null;
+    return [];
   });
 }
 
@@ -75,10 +75,8 @@ describe('graphql-lint', () => {
     { encoding: 'utf8' }
   );
 
-  it('returns no syntax errors after parsing kitchen-sink query', async () => {
+  it('returns no syntactic/validation errors after parsing kitchen-sink query', async () => {
     let errors = await printLintErrors(kitchenSink);
-    for (let error of errors) {
-      expect(error.type).to.not.equal('syntax');
-    }
+    expect(errors).to.have.lengthOf(0);
   });
 });
