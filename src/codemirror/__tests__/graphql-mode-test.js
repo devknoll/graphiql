@@ -11,6 +11,8 @@ import { describe, it } from 'mocha';
 import CodeMirror from 'codemirror';
 import 'codemirror/addon/runmode/runmode';
 import '../mode/graphql-mode';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 describe('graphql-mode', () => {
   it('provides correct tokens and styles after parsing', () => {
@@ -47,6 +49,17 @@ describe('graphql-mode', () => {
       if (token === '@' || token === 'include') {
         expect(style).to.equal('invalidchar');
       }
+    });
+  });
+
+  var kitchenSink = readFileSync(
+    join(__dirname, '/kitchen-sink.graphql'),
+    { encoding: 'utf8' }
+  );
+
+  it('parses kitchen-sink query without invalidchar', () => {
+    CodeMirror.runMode(kitchenSink, 'graphql', token => {
+      expect(token).to.not.equal('invalidchar');
     });
   });
 });
