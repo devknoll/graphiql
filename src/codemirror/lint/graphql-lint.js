@@ -23,6 +23,7 @@ CodeMirror.registerHelper('lint', 'graphql', function (text, options, editor) {
     return [ {
       message: error.message,
       severity: 'error',
+      type: 'syntax',
       from: CodeMirror.Pos(location.line - 1, token.start),
       to: CodeMirror.Pos(location.line - 1, token.end),
     } ];
@@ -40,6 +41,7 @@ function errorAnnotations(editor, error) {
     return {
       message: error.message,
       severity: 'error',
+      type: 'validation',
       from: editor.posFromIndex(highlightNode.loc.start),
       to: editor.posFromIndex(highlightNode.loc.end),
     };

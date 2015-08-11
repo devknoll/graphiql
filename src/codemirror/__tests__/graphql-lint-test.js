@@ -12,7 +12,8 @@ import CodeMirror from 'codemirror';
 import 'codemirror/addon/lint/lint';
 import '../lint/graphql-lint';
 import { BlogSchema } from './blogSchema';
-// import { readFileSync } from 'fs';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 /* eslint-disable max-len */
 
@@ -41,7 +42,7 @@ function printLintErrors(queryString) {
     };
     editor.doc.setValue(queryString);
   }).then((errors) => {
-    return errors[0].message;
+    return errors;
   }).catch(() => {
     return null;
   });
@@ -56,14 +57,31 @@ describe('graphql-lint', () => {
   });
 
   it('catches syntax errors', async () => {
-    expect(await printLintErrors(`qeury`)).to.contain(
+    expect(
+      (await printLintErrors(`qeury`))[0].message
+    ).to.contain(
 `Unexpected Name "qeury"`
     );
   });
 
   it('catches field validation errors', async () => {
-    expect(await printLintErrors(`query queryName { title }`)).to.contain(
+    expect(
+      (await printLintErrors(`query queryName { title }`))[0].message
+    ).to.contain(
 `Cannot query field "title" on "Query".`
     );
   });
+
+  var kitchenSink = readFileSync(
+    join(__dirname, '/kitchen-sink.graphql'),
+    { encoding: 'utf8' }
+  );
+
+  it('returns no syntax errors after parsing kitchen-sink query', async () => {
+    let errors = await printLintErrors(kitchenSink);
+    for (let error of errors) {
+      expect(error.type).to.not.equal('syntax');
+    }
+  });
+
 });
