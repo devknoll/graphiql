@@ -33,6 +33,7 @@
     "test": "npm run lint && npm run testonly",
     "testonly": "mocha $npm_package_options_mocha",
     "lint": "eslint src",
+    "check": "flow check",
     "build": "babel src --ignore __tests__ --out-dir dist/ && cat css/*.css > dist/graphiql.css",
     "prepublish": "npm run build"
   },
@@ -51,6 +52,7 @@
     "chai-subset": "^1.0.1",
     "eslint": "1.0.0",
     "eslint-plugin-react": "^3.0.0",
+    "flow-bin": "0.14.0",
     "jsdom": "^3.0.0",
     "mocha": "^2.2.5"
   }
