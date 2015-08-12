@@ -2,7 +2,6 @@
 *~
 .*.haste_cache.*
 .DS_Store
-dist
 node_modules
 npm-debug.log
 coverage
